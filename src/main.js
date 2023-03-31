@@ -13,12 +13,13 @@ var randomCoverButton = document.querySelector('.random-cover-button');
 var saveCoverButton = document.querySelector('.save-cover-button');
 var homeButton = document.querySelector('.home-button');
 var savedView = document.querySelector('.saved-view');
-var savedButton = document.querySelector('.view-saved-button');
+var viewSavedButton = document.querySelector('.view-saved-button');
 var makeBookButton = document.querySelector('.create-new-book-button');
 var coverInput = document.querySelector('#cover');
 var titleInput = document.querySelector('#title');
 var taglineOneInput = document.querySelector('#descriptor1');
 var taglineTwoInput = document.querySelector('#descriptor2');
+var savedCoversDisplay = document.querySelector('.saved-covers-section');
 
 // We've provided a few variables below
 var savedCovers = [
@@ -31,11 +32,27 @@ var currentCover = {};
 window.addEventListener('load', loadRandomPoster);
 randomButton.addEventListener('click', loadRandomPoster);
 makeYourOwnCoverButton.addEventListener('click', showForm);
-savedButton.addEventListener('click', showSavedPosters);
 homeButton.addEventListener('click', showHome);
 makeBookButton.addEventListener('click', makeBook);
+saveCoverButton.addEventListener('click', saveBook);
+viewSavedButton.addEventListener('click', showSaved);
 
 // Create your event handlers and other functions here 👇
+
+// savedCovers array
+// query
+// event listener call saveBook
+// saveBook {... push currentCover into savedCovers array
+// savedCovers array !include current cover will push,,,, but if it already exists nothing happens
+// display the objects in savedCovers
+
+function saveBook() {
+  if (!savedCovers.includes(currentCover)) {
+    savedCovers.push(currentCover);
+  }
+}
+
+
 function makeBook(event) {
   coverImage.src = coverInput.value; 
   coverTitle.innerText = titleInput.value;
@@ -45,10 +62,7 @@ function makeBook(event) {
   titles.push(titleInput.value);
   descriptors.push(taglineOneInput.value);
   descriptors.push(taglineTwoInput.value);
-  currentCover.image = coverImage.src;
-  currentCover.title = coverTitle.innerText;
-  currentCover.taglineOne = taglineOne.innerText;
-  currentCover.taglineTwo = taglineTwo.innerText;
+  currentCover = createCover(coverImage.src, coverTitle.innerText, taglineOne.innerText, taglineTwo.innerText);
   event.preventDefault();
   showHome();
 };
@@ -58,10 +72,7 @@ function loadRandomPoster() {
     coverTitle.innerText = titles[getRandomIndex(titles)];
     taglineOne.innerText = descriptors[getRandomIndex(descriptors)];
     taglineTwo.innerText = descriptors[getRandomIndex(descriptors)];
-    currentCover.image = coverImage.src;
-    currentCover.title = coverTitle.innerText;
-    currentCover.taglineOne = taglineOne.innerText;
-    currentCover.taglineTwo = taglineTwo.innerText;
+    currentCover = createCover(coverImage.src, coverTitle.innerText, taglineOne.innerText, taglineTwo.innerText);
   };
 
 function showForm() {
@@ -70,15 +81,35 @@ function showForm() {
   saveCoverButton.classList.add('hidden');
   formView.classList.remove('hidden');
   homeButton.classList.remove('hidden');
-  return formView, homeView;
+  viewSavedButton.classList.remove('hidden')
+  makeYourOwnCoverButton.classList.add('hidden')
 }
 
-function showSavedPosters() {
+function showSaved() {
   savedView.classList.remove('hidden');
   homeView.classList.add('hidden');  
   saveCoverButton.classList.add('hidden');  
   randomCoverButton.classList.add('hidden');  
-  homeButton.classList.remove('hidden');  
+  homeButton.classList.remove('hidden');
+  viewSavedButton.classList.add('hidden');
+  makeYourOwnCoverButton.classList.remove('hidden');
+  displaySavedCovers();
+}
+
+function displaySavedCovers() {
+  for (var i = 0; i < savedCovers.length; i++) {
+    savedView.innerHTML +=
+    `
+      <div class = 'mini-covers' id=${savedCovers[i].id}>
+        <img class="cover-image" src= ${savedCovers[i].imgSrc}>
+        <h2 class="cover-title">${savedCovers[i].title}</h2>
+        <h3 class="tagline">A tale of <span class="tagline-1">${savedCovers[i].tagline1}</span> 
+        and <span class="tagline-2">${savedCovers[i].tagline2}</span></h3>
+        <img class="price-tag" src="./assets/price.png">
+        <img class="overlay" src="./assets/overlay.png">
+      </div>
+    `    
+    }
 }
 
 function showHome() {
@@ -88,6 +119,9 @@ function showHome() {
   randomCoverButton.classList.remove('hidden');
   saveCoverButton.classList.remove('hidden');
   homeButton.classList.add('hidden');
+  viewSavedButton.classList.remove('hidden')
+  makeYourOwnCoverButton.classList.remove('hidden')
+
 }
 
 // We've provided two functions to get you started
