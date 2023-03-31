@@ -20,6 +20,7 @@ var titleInput = document.querySelector('#title');
 var taglineOneInput = document.querySelector('#descriptor1');
 var taglineTwoInput = document.querySelector('#descriptor2');
 var savedCoversDisplay = document.querySelector('.saved-covers-section');
+var miniCover = document.querySelector('.mini-cover');
 
 // We've provided a few variables below
 var savedCovers = [
@@ -36,22 +37,29 @@ homeButton.addEventListener('click', showHome);
 makeBookButton.addEventListener('click', makeBook);
 saveCoverButton.addEventListener('click', saveBook);
 viewSavedButton.addEventListener('click', showSaved);
+savedCoversDisplay.addEventListener('dblclick', deleteCover);
 
 // Create your event handlers and other functions here 👇
+// goal: delete cover from savedCovers once the user dblclicks the specified cover
+// 
 
-// savedCovers array
-// query
-// event listener call saveBook
-// saveBook {... push currentCover into savedCovers array
-// savedCovers array !include current cover will push,,,, but if it already exists nothing happens
-// display the objects in savedCovers
+function deleteCover(event) {
+  // miniCover.innerHTML = ''
+  // savedCovers.splice(i, 1)
+  var removeCover = event.target.parentNode.id.remove;
+  for (var i = 0; i < savedCovers.length; i++){
+    if (removeCover.id === savedCovers[i].id) {
+      //splice or remove method
+      savedCovers.splice(i, 1);
+    }
+  }
+}
 
 function saveBook() {
   if (!savedCovers.includes(currentCover)) {
     savedCovers.push(currentCover);
   }
 }
-
 
 function makeBook(event) {
   coverImage.src = coverInput.value; 
@@ -101,7 +109,7 @@ function displaySavedCovers() {
   for (var i = 0; i < savedCovers.length; i++) {
     savedCoversDisplay.innerHTML +=
     `
-      <div class = 'saved-covers-section mini-cover' id=${savedCovers[i].id}>
+      <div class = 'mini-cover' id=${savedCovers[i].id}>
         <img class="cover-image" src= ${savedCovers[i].coverImg}>
         <h2 class="cover-title">${savedCovers[i].title}</h2>
         <h3 class="tagline">A tale of <span class="tagline-1">${savedCovers[i].tagline1}</span> 
