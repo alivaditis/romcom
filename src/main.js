@@ -5,14 +5,14 @@ var taglineOne = document.querySelector('.tagline-1');
 var taglineTwo = document.querySelector('.tagline-2');
 var priceTag = document.querySelector('.price-tag');
 var overlay = document.querySelector('.overlay');
-var randomButton = document.querySelector('.random-cover-button');
-var makeYourOwnCoverButton = document.querySelector('.make-new-button');
 var formView = document.querySelector('.form-view');
 var homeView = document.querySelector('.home-view');
+var savedView = document.querySelector('.saved-view');
+var randomButton = document.querySelector('.random-cover-button');
+var makeYourOwnCoverButton = document.querySelector('.make-new-button');
 var randomCoverButton = document.querySelector('.random-cover-button');
 var saveCoverButton = document.querySelector('.save-cover-button');
 var homeButton = document.querySelector('.home-button');
-var savedView = document.querySelector('.saved-view');
 var viewSavedButton = document.querySelector('.view-saved-button');
 var makeBookButton = document.querySelector('.create-new-book-button');
 var coverInput = document.querySelector('#cover');
@@ -40,30 +40,14 @@ viewSavedButton.addEventListener('click', showSaved);
 savedCoversDisplay.addEventListener('dblclick', deleteCover);
 
 // Create your event handlers and other functions here 👇
-// goal: delete cover from savedCovers once the user dblclicks the specified cover
-// 
-
 function deleteCover(event) {
-  console.log('DELETEEEE')
-  // var coverId = event.target.parentNode.id
   for (var i = 0; i < savedCovers.length; i++) {
     if (event.target.parentNode.id === `${savedCovers[i].id}`) {
-       savedCovers.splice(i,1)
+       savedCovers.splice(i,1);
     } 
-  }
-  console.log(savedCovers) 
+  } 
   displaySavedCovers();
 }
-
-// function removeCover(event){
-//   for (var i=0; i<savedCovers.length; i++){
-//     if(event.target.parentNode.id === `${savedCovers[i].id}`){
-//       savedCovers.splice(i,1)
-//     }
-//   }
-//   displaySavedCovers()
-// }
-
 
 function saveBook() {
   if (!savedCovers.includes(currentCover)) {
@@ -83,7 +67,7 @@ function makeBook(event) {
   currentCover = createCover(coverImage.src, coverTitle.innerText, taglineOne.innerText, taglineTwo.innerText);
   event.preventDefault();
   showHome();
-};
+}
 
 function loadRandomPoster() {
     coverImage.src = covers[getRandomIndex(covers)]; 
@@ -91,7 +75,7 @@ function loadRandomPoster() {
     taglineOne.innerText = descriptors[getRandomIndex(descriptors)];
     taglineTwo.innerText = descriptors[getRandomIndex(descriptors)];
     currentCover = createCover(coverImage.src, coverTitle.innerText, taglineOne.innerText, taglineTwo.innerText);
-  };
+  }
 
 function showForm() {
   homeView.classList.add('hidden');
@@ -99,8 +83,8 @@ function showForm() {
   saveCoverButton.classList.add('hidden');
   formView.classList.remove('hidden');
   homeButton.classList.remove('hidden');
-  viewSavedButton.classList.remove('hidden')
-  makeYourOwnCoverButton.classList.add('hidden')
+  viewSavedButton.classList.add('hidden');
+  makeYourOwnCoverButton.classList.add('hidden');
 }
 
 function showSaved() {
@@ -110,7 +94,7 @@ function showSaved() {
   randomCoverButton.classList.add('hidden');  
   homeButton.classList.remove('hidden');
   viewSavedButton.classList.add('hidden');
-  makeYourOwnCoverButton.classList.remove('hidden');
+  makeYourOwnCoverButton.classList.add('hidden');
   displaySavedCovers();
 }
 
@@ -140,7 +124,6 @@ function showHome() {
   homeButton.classList.add('hidden');
   viewSavedButton.classList.remove('hidden');
   makeYourOwnCoverButton.classList.remove('hidden');
-
 }
 
 // We've provided two functions to get you started
