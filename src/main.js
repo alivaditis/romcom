@@ -44,16 +44,26 @@ savedCoversDisplay.addEventListener('dblclick', deleteCover);
 // 
 
 function deleteCover(event) {
-  // miniCover.innerHTML = ''
-  // savedCovers.splice(i, 1)
-  var removeCover = event.target.parentNode.id.remove;
-  for (var i = 0; i < savedCovers.length; i++){
-    if (removeCover.id === savedCovers[i].id) {
-      //splice or remove method
-      savedCovers.splice(i, 1);
-    }
+  console.log('DELETEEEE')
+  // var coverId = event.target.parentNode.id
+  for (var i = 0; i < savedCovers.length; i++) {
+    if (event.target.parentNode.id === `${savedCovers[i].id}`) {
+       savedCovers.splice(i,1)
+    } 
   }
+  console.log(savedCovers) 
+  displaySavedCovers();
 }
+
+// function removeCover(event){
+//   for (var i=0; i<savedCovers.length; i++){
+//     if(event.target.parentNode.id === `${savedCovers[i].id}`){
+//       savedCovers.splice(i,1)
+//     }
+//   }
+//   displaySavedCovers()
+// }
+
 
 function saveBook() {
   if (!savedCovers.includes(currentCover)) {
@@ -109,7 +119,7 @@ function displaySavedCovers() {
   for (var i = 0; i < savedCovers.length; i++) {
     savedCoversDisplay.innerHTML +=
     `
-      <div class = 'mini-cover' id=${savedCovers[i].id}>
+      <div class = 'mini-cover' id= "${savedCovers[i].id}">
         <img class="cover-image" src= ${savedCovers[i].coverImg}>
         <h2 class="cover-title">${savedCovers[i].title}</h2>
         <h3 class="tagline">A tale of <span class="tagline-1">${savedCovers[i].tagline1}</span> 
