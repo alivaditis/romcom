@@ -21,6 +21,7 @@ var taglineOneInput = document.querySelector('#descriptor1');
 var taglineTwoInput = document.querySelector('#descriptor2');
 var savedCoversDisplay = document.querySelector('.saved-covers-section');
 var miniCover = document.querySelector('.mini-cover');
+var form = document.querySelector('form')
 
 // We've provided a few variables below
 var savedCovers = [
@@ -40,21 +41,15 @@ viewSavedButton.addEventListener('click', showSaved);
 savedCoversDisplay.addEventListener('dblclick', deleteCover);
 
 // Create your event handlers and other functions here 👇
-function deleteCover(event) {
-  for (var i = 0; i < savedCovers.length; i++) {
-    if (event.target.parentNode.id === `${savedCovers[i].id}`) {
-       savedCovers.splice(i,1);
-    } 
-  } 
-  displaySavedCovers();
-}
 
-function saveBook() {
-  if (!savedCovers.includes(currentCover)) {
-    savedCovers.push(currentCover);
+function loadRandomPoster() {
+    coverImage.src = covers[getRandomIndex(covers)]; 
+    coverTitle.innerText = titles[getRandomIndex(titles)];
+    taglineOne.innerText = descriptors[getRandomIndex(descriptors)];
+    taglineTwo.innerText = descriptors[getRandomIndex(descriptors)];
+    currentCover = createCover(coverImage.src, coverTitle.innerText, taglineOne.innerText, taglineTwo.innerText);
   }
-}
-
+  
 function makeBook(event) {
   coverImage.src = coverInput.value; 
   coverTitle.innerText = titleInput.value;
@@ -66,36 +61,48 @@ function makeBook(event) {
   descriptors.push(taglineTwoInput.value);
   currentCover = createCover(coverImage.src, coverTitle.innerText, taglineOne.innerText, taglineTwo.innerText);
   event.preventDefault();
+  form.reset();
   showHome();
 }
 
-function loadRandomPoster() {
-    coverImage.src = covers[getRandomIndex(covers)]; 
-    coverTitle.innerText = titles[getRandomIndex(titles)];
-    taglineOne.innerText = descriptors[getRandomIndex(descriptors)];
-    taglineTwo.innerText = descriptors[getRandomIndex(descriptors)];
-    currentCover = createCover(coverImage.src, coverTitle.innerText, taglineOne.innerText, taglineTwo.innerText);
-  }
-
 function showForm() {
   homeView.classList.add('hidden');
+  savedView.classList.add('hidden');
+  formView.classList.remove('hidden');
   randomCoverButton.classList.add('hidden');
   saveCoverButton.classList.add('hidden');
-  formView.classList.remove('hidden');
   homeButton.classList.remove('hidden');
-  viewSavedButton.classList.add('hidden');
+  viewSavedButton.classList.remove('hidden');
   makeYourOwnCoverButton.classList.add('hidden');
 }
 
 function showSaved() {
   savedView.classList.remove('hidden');
   homeView.classList.add('hidden');  
+  formView.classList.add('hidden');
+  viewSavedButton.classList.add('hidden');
   saveCoverButton.classList.add('hidden');  
   randomCoverButton.classList.add('hidden');  
   homeButton.classList.remove('hidden');
-  viewSavedButton.classList.add('hidden');
-  makeYourOwnCoverButton.classList.add('hidden');
+  makeYourOwnCoverButton.classList.remove('hidden');
   displaySavedCovers();
+}
+
+function showHome() {
+  homeView.classList.remove('hidden');
+  formView.classList.add('hidden');
+  savedView.classList.add('hidden');
+  randomCoverButton.classList.remove('hidden');
+  saveCoverButton.classList.remove('hidden');
+  homeButton.classList.add('hidden');
+  viewSavedButton.classList.remove('hidden');
+  makeYourOwnCoverButton.classList.remove('hidden');
+}
+
+function saveBook() {
+  if (!savedCovers.includes(currentCover)) {
+    savedCovers.push(currentCover);
+  }
 }
 
 function displaySavedCovers() {
@@ -115,15 +122,13 @@ function displaySavedCovers() {
     }
 }
 
-function showHome() {
-  homeView.classList.remove('hidden');
-  formView.classList.add('hidden');
-  savedView.classList.add('hidden');
-  randomCoverButton.classList.remove('hidden');
-  saveCoverButton.classList.remove('hidden');
-  homeButton.classList.add('hidden');
-  viewSavedButton.classList.remove('hidden');
-  makeYourOwnCoverButton.classList.remove('hidden');
+function deleteCover(event) {
+  for (var i = 0; i < savedCovers.length; i++) {
+    if (event.target.parentNode.id == savedCovers[i].id) {
+       savedCovers.splice(i,1);
+    } 
+  } 
+  displaySavedCovers();
 }
 
 // We've provided two functions to get you started
